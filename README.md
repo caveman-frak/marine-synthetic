@@ -1,2 +1,2 @@
-# marine-synthetic
+# Marine Synthetic
 Synthetic data utilities for Marine services
