@@ -1,9 +1,5 @@
 plugins {
-    id("marine.java-conventions")
-}
-
-repositories {
-    mavenCentral()
+    id("marine.application-conventions")
 }
 
 dependencies {
