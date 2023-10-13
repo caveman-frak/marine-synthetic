@@ -1,0 +1,12 @@
+server:
+  shutdown: "graceful"
+
+spring:
+  application:
+    name: Loader
+    title: <- loader ->
+  output:
+    ansi:
+      enabled: always
+  lifecycle:
+    timeout-per-shutdown-phase: "5s"
