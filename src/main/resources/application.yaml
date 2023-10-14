@@ -10,3 +10,22 @@ spring:
       enabled: always
   lifecycle:
     timeout-per-shutdown-phase: "5s"
+
+logging:
+  group:
+    bluegecko: "uk.co.bluegecko"
+    noise: "org.apache,
+      org.springframework,
+      javax.management"
+  level:
+    root: "info"
+    bluegecko: "debug"
+    noise: "info"
+
+marine:
+  task:
+    pool:
+      size: 5
+      core: 3
+      max: 10
+    capacity: 25
