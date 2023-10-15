@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Import;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.scheduling.concurrent.ExecutorConfigurationSupport;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.shell.command.annotation.Command;
 import org.springframework.shell.command.annotation.Option;
@@ -51,11 +51,11 @@ public class AisFeed {
 	public void stop() {
 		if (isRunning()) {
 			log.info("Stopping publisher");
-			if (getScheduler() instanceof ThreadPoolTaskScheduler taskScheduler) {
-				taskScheduler.shutdown();
+			if (getScheduler() instanceof ExecutorConfigurationSupport executor) {
+				executor.shutdown();
 			}
-			if (getExecutor() instanceof ThreadPoolTaskExecutor taskExecutor) {
-				taskExecutor.shutdown();
+			if (getExecutor() instanceof ExecutorConfigurationSupport executor) {
+				executor.shutdown();
 			}
 		}
 	}
@@ -103,9 +103,9 @@ public class AisFeed {
 	}
 
 	private void writeMessage(SelectionKey key) {
-		ByteBuffer buffer = StandardCharsets.UTF_8.encode(lorem.getWords(5, 9).replace(' ', '_') + "\n");
 		try {
-			if (key.isWritable()) {// && key.channel().isOpen()) {
+			if (key.isWritable()) {
+				ByteBuffer buffer = StandardCharsets.UTF_8.encode(generateMessage());
 				((WritableByteChannel) key.channel()).write(buffer);
 			}
 		} catch (IOException ex) {
@@ -117,6 +117,10 @@ public class AisFeed {
 				log.error("Error while closing channel: {}", e.getMessage());
 			}
 		}
+	}
+
+	private String generateMessage() {
+		return lorem.getWords(5, 9).replace(' ', '_') + "\n";
 	}
 
 	private boolean isRunning() {
