@@ -8,6 +8,11 @@ spring:
   output:
     ansi:
       enabled: always
+  shell:
+    interactive:
+      enabled: true
+    script:
+      enabled: true
   lifecycle:
     timeout-per-shutdown-phase: "5s"
 
